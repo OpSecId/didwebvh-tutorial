@@ -1,0 +1,14 @@
+[project]
+name = "didwebvh-tutorial"
+version = "0.1.0"
+description = "Tutorial for WebVH"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "click>=8.2.1",
+    "did-webvh>=0.3.0",
+    "requests>=2.32.3",
+]
+
+[project.scripts]
+webvh = "main:webvh_cli"

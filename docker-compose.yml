@@ -1,0 +1,52 @@
+---
+services:
+  cli:
+    build: cli/
+    container_name: webvh-tutorial-cli
+    tty: true
+    environment:
+      AGENT_ENDPOINT: http://agent:8020
+      ISSUER_ID: did:key:z6MkgKA7yrw5kYSiDuQFcye4bMaJpcfHFry3Bx45pdWh3s8i
+    depends_on:
+      agent:
+        condition: service_healthy
+    volumes:
+      - ./outputs/:/cli/outputs
+      - ./credentials/:/cli/credentials
+
+  agent:
+    image: ghcr.io/openwallet-foundation/acapy-agent:py3.12-nightly
+    container_name: webvh-tutorial-agent
+    entrypoint: ["aca-py", "start"]
+    command: [
+      '--no-ledger',
+      '--no-transport',
+      '--auto-provision',
+      '--admin', '0.0.0.0', '8020',
+      '--admin-insecure',
+      '--wallet-key', 'askar',
+      '--wallet-name', 'askar',
+      '--seed', '00000000000000000000000000000000',
+    ]
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8020/status/ready"]
+      interval: 1s
+      timeout: 1s
+      retries: 5
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.endorser.rule=Host(`agent.webvh-tutorial.localhost`)
+      - traefik.http.routers.endorser.entrypoints=web
+      - traefik.http.services.endorser.loadbalancer.server.port=8020
+
+  traefik:
+    image: traefik:v3.1
+    command:
+      - --api.insecure=true
+      - --providers.docker=true
+      - --providers.docker.exposedbydefault=false
+      - --entryPoints.web.address=:80
+    ports:
+      - 80:80
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
