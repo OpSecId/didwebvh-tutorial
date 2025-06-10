@@ -4,10 +4,10 @@
 
 ### GH Page & Repository
 
-Create a new repo from this [template](https://github.com/new?template_name=didwebvh-tutorial&template_owner=OpSecId)
-Enable GH pages Settings -> Pages
-Set the source to Deploy from a branch
-Deploy from the main branch `/(root)` directory
+- Create a new repo from this [template repository](https://github.com/new?template_name=didwebvh-tutorial&template_owner=OpSecId)
+- Enable GH pages via Settings -> Pages
+  - Set the source to Deploy from a branch
+  - Deploy from the main branch `/(root)` directory
 
 ### Docker & CLI
 
@@ -33,7 +33,6 @@ alias webvh-cli="docker exec webvh-tutorial-cli webvh"
 
 # Confirm alias is registered
 webvh-cli --help
-
 ```
 
 ## Task 2: Create the first log entry
@@ -50,7 +49,6 @@ webvh-cli did-params --update-key <multikey> --method 0.5
 
 # Generate the SCID input file with a current timestamp
 webvh-cli gen-scid-input --version-time <datetime>
-
 ```
 
 ## Task 3: Generate the SCID (Self-Certifying Identifier)
@@ -100,14 +98,12 @@ webvh-cli add-proof --update-key <>
 
 # Add to the log file
 webvh-cli new-line
-
 ```
 
 Resolve your DID again.
 
-
-
 ## Commands
+
 ```bash
 _________________________________________________________________
 Usage: webvh [OPTIONS] COMMAND [ARGS]...

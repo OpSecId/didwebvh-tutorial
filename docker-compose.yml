@@ -33,20 +33,6 @@ services:
       interval: 1s
       timeout: 1s
       retries: 5
-    labels:
-      - traefik.enable=true
-      - traefik.http.routers.endorser.rule=Host(`agent.webvh-tutorial.localhost`)
-      - traefik.http.routers.endorser.entrypoints=web
-      - traefik.http.services.endorser.loadbalancer.server.port=8020
-
-  traefik:
-    image: traefik:v3.1
-    command:
-      - --api.insecure=true
-      - --providers.docker=true
-      - --providers.docker.exposedbydefault=false
-      - --entryPoints.web.address=:80
     ports:
-      - 80:80
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - 8020:8020
+
